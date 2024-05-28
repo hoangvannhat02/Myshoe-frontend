@@ -1,0 +1,76 @@
+<app-header></app-header>
+<main class="box_login">
+    
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form action="#" (ngSubmit)="onSubmitRegistration()">
+            <h1>Tạo tài khoản</h1>
+           
+            <span>hoặc sử dụng email của bạn để đăng ký</span>
+            <label for="email">
+                <input [(ngModel)]="user_registration.email" (input)="onInputRegisEmail()" type="email" name="email" placeholder="Email" required/>
+                <span *ngIf="isEmailResgisInvalid" class="message">{{ message_resgistration.email }}</span>
+            </label>
+            <label for="password">
+                <input [(ngModel)]="user_registration.password" type="password" (input)="onInputRegisPassWord()" placeholder="Password" [ngModelOptions]="{standalone: true}" required/>
+                <span *ngIf="isPasswordResgisInvalid" class="message">{{ message_resgistration.password }}</span>
+            </label>
+            <label for="username">
+                <input [(ngModel)]="users.name" (input)="onInputName()" type="text" name="username" placeholder="Full name" required/>
+                <span *ngIf="isNameInvalid" class="message">{{ message_resgistration.name }}</span>
+            </label>
+            <label for="phonenumber">
+                <input [(ngModel)]="users.phone" (input)="onInputPhonenumber()" type="text" name="phonenumber" placeholder="Phone number"  required/>
+                <span *ngIf="isPhoneInvalid" class="message">{{ message_resgistration.phone }}</span>
+            </label>
+            <label for="address">
+                <input [(ngModel)]="users.address" (input)="onInputAddressnumber()" type="text" name="address" placeholder="Address" required/>
+                <span *ngIf="isAddressInvalid" class="message">{{ message_resgistration.address }}</span>
+            </label>
+            <button type="submit">Đăng ký</button>
+            
+        </form>
+    </div>
+    <div id="sigin-phone-btn"></div>
+    <div class="form-container sign-in-container">
+        <form (ngSubmit)="onSubmit()" action="#" class="form-login">
+            <h1>Đăng nhập</h1>
+            <div class="social-container">
+                <a href="#" class="social" (click)="signInWithFB($event)"><i class="fab fa-facebook-f"></i></a>
+                <asl-google-signin-button (click)="loginWithGoogle()"></asl-google-signin-button>
+
+                <!-- <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a> -->
+            </div>
+            <span>hoặc dùng tài khoản của bạn</span>
+            <label for="email">
+                <input [(ngModel)]="users.email" (input)="onInputEmail()" type="email" name="email" placeholder="Email " required/>
+                <span *ngIf="isEmailInvalid" class="message">{{ message.email }}</span>
+            </label>
+            <label for="password">
+                <input [(ngModel)]="users.password" type="password" (input)="onInputPassWord()" placeholder="Password" [ngModelOptions]="{standalone: true}" required/>
+                <span *ngIf="isPasswordInvalid" class="message">{{ message.password }}</span>
+            </label>
+            <a class="forgot_password" href="forgetpassword">Quên mật khẩu</a>
+            <button type="submit">Đăng nhập</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Chào mừng trở lại!</h1>
+                <p>Để duy trì kết nối với chúng tôi vui lòng đăng nhập bằng thông tin cá nhân của bạn</p>
+                <button class="ghost" id="signIn">Đăng nhập</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Chào bạn!</h1>
+                <p>Nhập thông tin cá nhân của bạn và bắt đầu hành trình với chúng tôi</p>
+                <button class="ghost" id="signUp">Đăng ký</button>
+            </div>
+            
+        </div>
+    </div>
+   
+</div>
+</main>
+
+<app-footer></app-footer>

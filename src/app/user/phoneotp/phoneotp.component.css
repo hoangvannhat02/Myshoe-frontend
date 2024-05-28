@@ -1,0 +1,35 @@
+.phone-otp{
+    margin-left: auto;
+    margin-right: auto;
+    width: 25em;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+h2{
+    margin-bottom: 20px;
+    font-size: 25px;
+    margin-top: 40%;
+}
+
+span{
+}
+
+a{
+    font-style: oblique;
+    text-decoration: none;
+}
+
+button{
+    padding: 10px 20px;
+    background-color: #1e1ed8;
+    color: #fff;
+    outline: none;
+    margin: 15px 0px;
+    font-size: larger;
+    cursor: pointer;
+    border:1px solid;
+    border-radius: 5px;
+}

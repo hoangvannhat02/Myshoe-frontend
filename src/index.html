@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Myshoes</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="./assets/my-ui/css/style.css">
+  <link rel="stylesheet" href="./assets/my-ui/css/responsive.css">
+  <link rel="stylesheet" href="./assets/my-ui/css/detail.css">
+  <link rel="stylesheet" href="./assets/my-ui/css/category.css">
+  <link rel="stylesheet" href="./assets/my-ui/css/cart.css">
+  <link rel="stylesheet" href="./assets/my-ui/css/checkout.css">
+  <!-- <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css"> -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <df-messenger intent="WELCOME" chat-title="Test-chatbotai" agent-id="a2acbe5e-1ede-4141-9e86-9891bac9c89c"
+    language-code="vi"></df-messenger>
+</head>
+
+<body>
+  <app-root></app-root>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script>
+    $(document).ready(function () {
+      const listimg = [];
+      const mainImg = $('.box_image').find('img');
+      const elementImgParent = $('.slick-slide');
+      const tabDescrption = $('.tab-link');
+      const tabItem = $('.tab-item');
+      // const addQuantityElement = $('.add_quantity');
+      // const minusQuantityElement = $('.minus_quantity');
+
+      elementImgParent.each(function () {
+        const src = $(this).find('img').attr('src')
+        listimg.push(src)
+      })
+
+      mainImg.attr('src', listimg[0])
+
+      elementImgParent.each(function () {
+        $(this).click(function () {
+          const hasClassActive = $(this).hasClass('active');
+          const src = $(this).find('img').attr('src');
+          if (hasClassActive) {
+            elementImgParent.removeClass('active')
+          }
+          else {
+            elementImgParent.removeClass('active')
+            $(this).addClass('active')
+            mainImg.attr('src', src)
+          }
+        })
+      })
+
+      for (let i = 0; i <= tabDescrption.length; i++) {
+        $(tabDescrption[i]).click(function (e) {
+          e.preventDefault();
+          tabDescrption.removeClass('active');
+          $(tabDescrption[i]).addClass('active');
+
+          tabItem.removeClass('active')
+          $(tabItem[i]).addClass('active')
+        })
+      }
+
+      // $(addQuantityElement).click(function () {
+      //   let quantityInput = $(this).parent().find('input');
+      //   quantity = (parseInt(quantityInput.val()) + 1).toString();
+      //   quantityInput.val(quantity);
+      // })
+
+      // $(minusQuantityElement).click(function () {
+      //   let quantityInput = $(this).parent().find('input');
+      //   quantity = parseInt(quantityInput.val()) - 1;
+      //   if (quantity < 1) {
+      //     quantity = 1;
+      //   }
+      //   quantityInput.val(quantity.toString());
+      // })
+    })
+  </script>
+
+  <script>
+    document.addEventListener('click', function (event) {
+      var showSetting = document.querySelectorAll('.showmodel');
+      showSetting.forEach(function (element) {
+        if (event.target.id === element.getAttribute('data-target').substring(1)) {
+          // If the clicked element has the correct ID, set display to block for the current element
+          element.style.display = 'block';
+        }
+      })
+    });
+
+    $(document).ready(function () {
+      $('.box-user').click(function () {
+        $('.info-user').toggleClass("hidden");
+      })
+
+      $(".iconclose").click(function () {
+        $('.showmodel').hide();
+      })
+
+      $('.box-manage-menu').click(function (e) {
+        e.preventDefault();
+        var menuList = $(this).next('.menu-item__list');
+        menuList.toggle();
+      })
+
+    }
+    )
+  </script>
+
+</body>
+
+</html>

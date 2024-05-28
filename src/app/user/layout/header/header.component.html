@@ -1,0 +1,161 @@
+
+<header class="header">
+    <div class="container">
+        <div class="logo_center">
+            <a routerLink="/home" class="logo-wrapper">
+                <img [src]="orther.Logo ? 'http://localhost:8000/'+orther.Logo : 'https://bizweb.dktcdn.net/100/091/133/themes/880367/assets/logo.png?1676015027577'" alt="">
+            </a>
+        </div>
+
+        <div class="content-header">
+            <div class="phone-header">
+                <div class="icon-phone">
+                    <i class="fa-solid fa-phone"></i>
+                    <a href="#">1900 6750</a>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <form action="">
+                    <span class="btn-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" [(ngModel)]="searchcontent" (input)="searchdata($event)" (keydown.enter)="search()" placeholder="Tìm kiểm..." [ngModelOptions]="{standalone: true}">
+                    <div class="box_history_search" *ngIf="datahistory.length > 0 || searchcontent.length>0">
+                        <ng-container *ngIf="datahistory.length > 0 && searchcontent.length==0">
+                            <div class="item_history_search" *ngFor="let item of datahistory,let i = index" (mousedown)="optionsearh(item)">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                                <a href="" >{{ item }}</a>
+                                <i class="fa-solid fa-xmark" (mousedown)="deletehistory(i)" title="xóa lịch sử"></i>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="searchcontent.length>0">
+                            <div class="item_search" *ngFor="let item of datasearch" (mousedown)="optionsearh(item.suggestion)">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <a href="#" >{{ item.suggestion }}</a>
+                            </div>
+                            
+                        </ng-container>
+
+                    </div>
+                </form>
+
+
+            </div>
+
+            <div class="cart-header">
+                <a style="text-decoration: none;color: #333;" routerLink="/cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="quantity-cart">({{ cartCount }})</span>
+                    Giỏ hàng
+                    <!-- <div class="mes-cart">
+                        <p>Không có sản phẩm nào.</p>
+                    </div> -->
+                </a>
+            </div>
+
+            <div *ngIf="!isExit" class="login-box">
+                <i class="fa-solid fa-user"></i>
+                <a routerLink="/login">
+                    Đăng nhập
+                </a>
+            </div>
+
+            <div *ngIf="isExit" class="summary-user">
+                <img [src]="imguser" alt="">
+                <a href="#">
+                    Xin chào, {{ customer.HoVaTen }}
+                </a>
+
+                <div class="mes-logout">
+                    <a (click)="redirectToInfo()">Thông tin tài khoản</a>
+                    <a href="#" (click)="logout($event)">Đăng xuất</a>
+                </div>
+
+            </div>
+
+            <div *ngIf="!isExit" class="register-box">
+                <i class="fa-solid fa-lock-open"></i>
+                <a [routerLink]="['/login']">
+                    Đăng ký
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+</header>
+
+<div class="header-menu">
+    <div class="container">
+        <nav class="header-nav">
+            <ul class="item-big">
+                <li class="nav-item">
+                    <a routerLink="/home" title="Trang chủ">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" title="Giới thiệu">Giới thiệu</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/category" title="Sản phẩm">Sản phẩm <i class="fa-solid fa-chevron-down"></i></a>
+                    <!-- <div class="nav-item-child">
+                        <div class="content-child-big">
+                            <div class="content-child">
+                                <a href="#">SANDAL</a>
+                                <a href="#">Sandal xỏ ngón</a>
+                                <a href="#">Sandal mỹ</a>
+                                <a href="#">Sandal thường</a>
+                                <a href="#">Sandal Việt Nam</a>
+                            </div>
+                            <div class="content-child">
+                                <a href="#">SANDAL</a>
+                                <a href="#">Sandal xỏ ngón</a>
+                                <a href="#">Sandal mỹ</a>
+                                <a href="#">Sandal thường</a>
+                                <a href="#">Sandal Việt Nam</a>
+                            </div>
+                            <div class="content-child">
+                                <a href="#">SANDAL</a>
+                                <a href="#">Sandal xỏ ngón</a>
+                                <a href="#">Sandal mỹ</a>
+                                <a href="#">Sandal thường</a>
+                                <a href="#">Sandal Việt Nam</a>
+                            </div>
+                            <div class="content-child">
+                                <a href="#">SANDAL</a>
+                                <a href="#">Sandal xỏ ngón</a>
+                                <a href="#">Sandal mỹ</a>
+                                <a href="#">Sandal thường</a>
+                                <a href="#">Sandal Việt Nam</a>
+                            </div>
+                            <div class="content-child">
+                                <a href="#">SANDAL</a>
+                                <a href="#">Sandal xỏ ngón</a>
+                                <a href="#">Sandal mỹ</a>
+                                <a href="#">Sandal thường</a>
+                                <a href="#">Sandal Việt Nam</a>
+                            </div>
+                            <div class="content-child">
+                                <a href="#">SANDAL</a>
+                                <a href="#">Sandal xỏ ngón</a>
+                                <a href="#">Sandal mỹ</a>
+                                <a href="#">Sandal thường</a>
+                                <a href="#">Sandal Việt Nam</a>
+                            </div>
+                        </div>
+                    </div> -->
+                </li>
+                <li class="nav-item">
+                    <a href="#" title="Tin tức">Tin tức</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/voucher" title="Bản đồ">Giảm giá</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" title="Liên hệ">Liên hệ</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

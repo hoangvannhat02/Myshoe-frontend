@@ -1,0 +1,32 @@
+<app-header></app-header>
+<div class="container breadcrumb">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-12 breadcrumb_box">
+                <a routerLink="/">Trang chủ</a> <span>/</span> <a routerLink="/voucher">Giảm giá</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="voucher">
+    <div class="grid wide">
+        <div class="row box_voucher_item">
+            <div class="col c-12 l-5 m-5 voucher_item" *ngFor="let item of vouchers">
+                <div class="voucher_img">
+                    <img src="../../../assets/my-ui/image/voucher.png" class="icon_voucher" alt="">
+                </div>
+                <div class="box_voucher_item">
+                    <h3 class="voucher_title">{{ item.TenPhieu }} - ({{ item.SoLuong }})</h3>
+                    <p class="voucher_content">Đơn giá nằm trong: {{ item.GiaTriNhoNhat | currency:'VND' }} - {{ item.GiaTriLonNhat | currency:'VND' }}</p>
+                    <p class="voucher_expire">
+                        Từ ngày {{ item.NgayBatDau | date:"dd/MM/yyyy" }} - {{ item.NgayKetThuc | date:"dd/MM/yyyy" }}
+                    </p>
+                </div>
+                <div class="btn_voucher">
+                    <button *ngIf="!(item.SoLuong === 0) && (checkdate(item.NgayBatDau,item.NgayKetThuc))" (click)="addvoucher(item.MaPhieu)">Nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

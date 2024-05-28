@@ -1,0 +1,107 @@
+<app-header></app-header>
+<div class="container breadcrumb">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-12 breadcrumb_box">
+                <a routerLink="/home">Trang chủ</a> <span>/</span> <a href="cart.html">Giỏ hàng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="container cart-item">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-12 box-cart">
+                <h3>
+                    GIỎ HÀNG
+                </h3>
+                <form action="">
+                    <table class="cart">
+
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox"  [(ngModel)]="checkedall" (change)="selectedAll($event)" [ngModelOptions]="{standalone: true}"> Chọn tất cả
+                                </th>
+                                <th>
+                                    Ảnh sản phẩm
+                                </th>
+                                <th>Tên sản phẩm</th>
+                                <th>
+                                    Đơn giá
+                                </th>
+                                <th>
+                                    Số lượng
+                                </th>
+                                <th>
+                                    Thành tiền
+                                </th>
+                                <th>
+                                    Xóa
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let x of datacarts">
+                                <td>
+                                    <input type="checkbox" [checked]="selectedItems.includes(x)" (change)="checkedCartProduct($event,x)">
+                                </td>
+                                <td>
+                                    <img style="width: 100px; object-fit: cover;" [src]="x.ProductPath ? 'http://localhost:8000/'+x.ProductPath : ''" alt="">
+                                </td>
+                                <td>
+                                    {{ x.ProductName + " - " + x.ColorName + " - " + x.SizeName }}
+                                </td>
+                                <td>
+                                    {{ x.ProductPrice | number }}đ
+                                </td>
+                                <td>
+                                    <div class="cart_quantity">
+                                        <div class="minus_quantity_cart" (click)="minusquantity(x)">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </div>
+                                        <input type="text" id="cart_quantity" min="1" [value]="x.Quantity">
+
+                                        <div (click)="upquantity(x)" class="add_quantity_cart">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ (x.Quantity * x.ProductPrice) | number }}đ
+                                </td>
+
+                                <td>
+                                    <i (click)="deleteCart(x.ProductID,x.UserID)" class="fa-solid fa-trash"></i>
+                                </td>
+                            </tr>
+
+                          
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+            <div class="col c-12 m-4 l-4 box-btn-checkout">
+
+                <div class="item_total">
+                    <div>
+                        Tổng tiền
+                    </div>
+                    <div>
+                        {{ getsum|number }}đ
+                    </div>
+                </div>
+
+                <div (click)="redirectToCheckout($event)" class="btn_checkout">
+                    <a href="#" class="link_checkout">Tiến hành thanh toán</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+<app-footer></app-footer>

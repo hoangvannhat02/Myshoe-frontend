@@ -1,0 +1,473 @@
+<app-header></app-header>
+<!-- <div class="banner-image">
+    <div class="wrapper">
+        <a class="swiper-slide" routerLink="/home">
+            <img src="https://bizweb.dktcdn.net/thumb/2048x2048/100/091/133/themes/880367/assets/slider_1.jpg?1676015027577"
+                alt="">
+        </a>
+    </div>
+</div> -->
+
+<swiper-container pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false" style="width: 100%;">
+        <swiper-slide *ngFor="let item of orther.AnhQuangCaoPhanDau.slice(0,3)">
+            <img style="width: 100%;" [src]="'http://localhost:8000/'+item" alt="" loading="lazy">
+        </swiper-slide>
+        
+</swiper-container>
+
+<section class="container">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-3 slidebar_index">
+                <div class="aside-title">
+                    <h2 class="title-header">
+                        DANH MỤC SẢN PHẨM
+                    </h2>
+                </div>
+                <div class="aside-content">
+                    <nav class="nav-category">
+                        <ul class="nav">
+                            <li class="nav-item" *ngFor="let item of categoryproducts">
+                                <div class="box-item">
+                                    <a class="nav-link" routerLink="/category/{{ item.MaLoai }}">
+                                        <div class="nav-dash"></div>
+                                        {{ item.TenLoai }}
+                                    </a>
+                                    <i class="fa-solid fa-angle-right"></i>
+
+                                </div>
+                                <ul class="dropdown-menu">
+                                        <li><i class="fa-solid fa-star"></i><a href="#">Sandal xỏ ngón</a></li>
+                                        <li><i class="fa-solid fa-star"></i><a href="#">Sandal thường</a></li>
+                                        <li><i class="fa-solid fa-star"></i><a href="#">Sandal Mỹ</a></li>
+                                        <li><i class="fa-solid fa-star"></i><a href="#">Sandal Việt Nam</a></li>
+                                    </ul>
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="aside-item">
+                    <div class="aside-title">
+                        <h2 class="title-header">
+                            <a href="#">SẢN PHẨM BÁN CHẠY</a>
+                        </h2>
+                    </div>
+
+                    <div class="item_product_main">
+                        <form class="product-action" *ngFor="let item of sellingproduct.slice(0,displayedProducts)">
+                            <div class="product-thumbnail">
+                                <a routerLink="/detail/{{ item.MaSanPham }}"><img
+                                        [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg' "></a>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-img">
+                                    <a routerLink="/detail/{{ item.MaSanPham }}">{{ item.TenSanPham }}</a>
+                                </h3>
+
+                                <div class="price-box">
+                                    {{ item.giaban | number }}₫
+                                    <span class="compare-price">{{ item.GiaKhuyenMai | number}}₫</span>
+                                </div>
+                                <button type="button" (click)="redirectodetail(item.MaSanPham)" class="btn-cart">Tùy
+                                    chọn</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+                <!-- Xem thêm sản phẩm -->
+                <div class="aside-item" *ngIf="displayedProducts < sellingproduct.length">
+                    <div class="link-more">
+                        <a (click)="showMoreSellingProducts($event,10)" href="">Xem thêm sản phẩm</a>
+                    </div>
+                </div>
+                <div class="aside-item" *ngIf="displayedProducts >= sellingproduct.length">
+                    <div class="link-more">
+                        <a (click)="showMoreSellingProducts($event,2)" href="">Ẩn bớt</a>
+                    </div>
+                </div>
+
+                <!-- Hotline liên hệ -->
+                <div class="aside-item">
+                    <div class="banner-hotline">
+                        <img src="assets/my-ui/image/banner-phone.webp" alt="">
+                        <div class="hotline-info">
+                            <p>Hỗ trợ trực tuyến</p>
+                            <span>{{ orther.DienThoai }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aside-item">
+                    <div class="banner-image">
+                        <a class="link-image" href="#">
+                            <img src="assets/my-ui/image/banner-2.webp" alt="banner">
+                        </a>
+                        <div class="image-hover">
+                            <img src="assets/my-ui/image/text-banner.webp" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tin tức -->
+                <div class="aside-item aside-blog">
+                    <div class="aside_title">
+                        <a class="link_new" href="#">
+                            Tin tức
+                        </a>
+                    </div>
+
+                    <div class="aside-content">
+                        <div class="content-image">
+                            <img src="assets/my-ui/image/blog-img-1.webp"
+                                alt="Chắc chắn không thể có sao Hàn nào giống Chi Pu bằng ca sĩ này">
+                        </div>
+
+                        <div class="content-title">
+                            <div class="title">
+                                <a href="#">Chắc chắn không thể có sao Hàn nào giống Chi Pu bằng ca sĩ này</a>
+                            </div>
+                            <div class="blog-author">
+                                <i class="fa-solid fa-user"></i>
+                                <p>
+                                    Nguyễn Ngọc Dũng
+                                </p>
+                            </div>
+                            <div class="box-date-submited">
+                                <i class="fa-solid fa-clock"></i>
+                                <p>28, June, Năm 2016</p>
+                            </div>
+                        </div>
+
+                        <div class="content-description">
+                            Là một trong những sao trẻ 9X được yêu thích hàng đầu showbiz Việt, Chi Pu không chỉ
+                            năng nổ trong nhiều lĩnh vực mà còn sở hữu khuôn mặt...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col c-12 12 l-9 slider">
+                <div class="grid">
+                    <div class="row">
+                        <div class="col c-12 m-12 l-12 title-new-pro">
+                            <h2 class="content-title-newpro">
+                                SẢN PHẨM MỚI
+                            </h2>
+                            <hr style="margin-top: 15px;  opacity: 0.5;height: 1px;">
+                            <hr style="margin-top: 5px;  opacity: 0.5;height: 1px;">
+                        </div>
+                        <div class="col c-12 m-4 l-4 item-main" *ngFor="let item of dataproductsbypagination">
+                            <div class="item-product-main">
+                                <form action="" class="product-action">
+                                    <div class="product-thumbnail">
+                                        <a routerLink="/detail/{{ item.MaSanPham }}" class="product-overlay"></a>
+                                        <a routerLink="/detail/{{ item.MaSanPham }}" class="product-img-link">
+                                            <img title="Giày tây nâu đỏ thương hiệu Converse All Star"
+                                                [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg'"
+                                                class="product-img" alt="">
+                                        </a>
+                                        <div class="saleright">
+                                            <span *ngIf="item.GiaKhuyenMai">-{{
+                                                solvediscount(item.Gia,item.GiaKhuyenMai) }}%</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <p class="product-name">
+                                            <a routerLink="/detail/{{ item.MaSanPham }}">{{ item.TenSanPham }}</a>
+                                        </p>
+                                        <div class="price-box">
+                                            Giá {{ item.GiaKhuyenMai | number}}₫
+                                            <span class="compare-price">{{ item.Gia | number }}₫</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-action">
+                                        <button type="button" (click)="addcart(item)" class="btn-cart">Tùy
+                                            chọn</button>
+                                        <a href="#" (click)="showquickview($event, item.MaSanPham, item.MaMau)"
+                                            class="link-info-pro">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col c-12 m-12 l-12" style="display: flex;justify-content: center;">
+                            <app-pagination [currentPage]="this.currentPage" [itemsPerPage]="this.itemsPerPage"
+                                [totalItems]="this.products.length" (pageChange)="onPageChange($event)">
+                            </app-pagination>
+                        </div>
+
+                        <!-- banner hàng mới về -->
+                        <div class="col c-12 m-12 l-12 section_product_new">
+                            <div class="banner_1">
+                                <a href="#">
+                                    <img class="banner_1_img" [src]="'http://localhost:8000/'+orther.AnhQuangCaoPhanGiua[0].image" alt="">
+                                </a>
+                            </div>
+
+                            <div class="text_hover">
+                                {{ orther.AnhQuangCaoPhanGiua[0].title }}
+                            </div>
+                        </div>
+
+                        <!-- Sản phẩm khuyến mãi -->
+                        <div class="col c-12 m-12 l-12 product-sale">
+                            <h2 class="content-title-newpro">
+                                SẢN PHẨM KHUYẾN MÃI
+                            </h2>
+                            <hr style="margin-top: 15px;  opacity: 0.5;height: 1px;">
+                            <hr style="margin-top: 5px;  opacity: 0.5;height: 1px;">
+                        </div>
+
+                        <div class="col c-12 m-4 l-4 item-main" *ngFor="let item of discountProducts.slice(0,3)">
+                            <div class="item-product-main">
+                                <form action="" class="product-action">
+                                    <div class="product-thumbnail">
+                                        <a routerLink="/detail/{{ item.MaSanPham}}" class="product-overlay"></a>
+                                        <a routerLink="/detail/{{ item.MaSanPham }}" class="product-img-link">
+                                            <img class="product-img"
+                                                [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg'"
+                                                alt="">
+                                        </a>
+                                        <div class="saleright">
+                                            <span>-{{ solvediscount(item.Gia,item.GiaKhuyenMai) }}%</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <p class="product-name">
+                                            <a routerLink="/detail/{{ item.MaSanPham}}">{{ item.TenSanPham }}</a>
+                                        </p>
+                                        <div class="price-box">
+                                            {{ item.Gia | number }}₫
+                                            <span class="compare-price">{{ item.GiaKhuyenMai | number }}₫</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-action">
+                                        <button type="button" (click)="addcart(item)" class="btn-cart">Tùy chọn</button>
+                                        <a href="#" (click)="showquickview($event, item.MaSanPham, item.MaMau)"
+                                            class="link-info-pro">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <!-- Banner 2 -->
+
+                        <div class="col c-12 m-12 l-12 section_product_new">
+                            <div class="banner_1">
+                                <a href="#">
+                                    <img class="banner_1_img" [src]="'http://localhost:8000/'+orther.AnhQuangCaoPhanGiua[1].image" alt="">
+                                </a>
+                            </div>
+
+                            <div class="text_hover">
+                                {{ orther.AnhQuangCaoPhanGiua[1].title }}
+                            </div>
+                        </div>
+
+                        <div class="col c-12 m-12 l-12 section_col_two">
+                            <div class="grid">
+                                <div class="row">
+                                    <div class="col c-12 m-4 l-4">
+                                        <div class="title_module_main">
+                                            <h2>
+                                                SẢN PHẨM NỔI BẬT
+                                            </h2>
+                                            <hr style="margin-top: 15px;  opacity: 0.5;height: 1px;">
+                                            <hr style="margin-top: 5px;  opacity: 0.5;height: 1px;">
+                                        </div>
+                                        <div class="item-main">
+                                            <div class="item-product-main">
+                                                <form action="" class="product-action"
+                                                    *ngFor="let item of sellingproduct.slice(0,1)">
+                                                    <div class="product-thumbnail">
+                                                        <a routerLink="/detail/{{ item.MaSanPham }}"
+                                                            class="product-overlay"></a>
+                                                        <a routerLink="/detail/{{ item.MaSanPham }}"
+                                                            class="product-img-link">
+                                                            <img class="product-img"
+                                                                [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg'"
+                                                                alt="">
+                                                        </a>
+                                                        <div class="saleright">
+                                                            <span *ngIf="item.GiaKhuyenMai">-{{
+                                                                solvediscount(item.giaban,item.GiaKhuyenMai) }}%</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-info">
+                                                        <p class="product-name">
+                                                            <a routerLink="/detail/{{ item.MaSanPham }}">{{
+                                                                item.TenSanPham }}</a>
+                                                        </p>
+                                                        <div class="price-box">
+                                                            {{ item.giaban |number }}
+                                                            <span class="compare-price">{{ item.GiaKhuyenMai|number
+                                                                }}₫</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-action">
+                                                        <button (click)="addcart(item)" class="btn-cart">Mua
+                                                            hàng</button>
+                                                        <a href="#"
+                                                            (click)="showquickview($event, item.MaSanPham, item.MaMau)"
+                                                            class="link-info-pro">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </a>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col c-12 m-8 l-8">
+                                        <div class="title_module_main">
+                                            <h2>SẢN PHẨM MUA NHIỀU</h2>
+                                            <hr style="margin-top: 15px;  opacity: 0.5;height: 1px;">
+                                            <hr style="margin-top: 5px;  opacity: 0.5;height: 1px;">
+                                        </div>
+
+                                        <div class="grid grid_product">
+                                            <div class="row">
+                                                <div class="col c-12 m-6 l-6 item_product_main"
+                                                    *ngFor="let item of sellingproduct.slice(0,6)">
+                                                    <form action="" class="product-action">
+                                                        <div class="product-thumbnail">
+                                                            <a routerLink="/detail"><img
+                                                                    [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg'"
+                                                                    alt=""></a>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <h3 class="product-img">
+                                                                <a routerLink="/detail/{{ item.MaSanPham}}">{{
+                                                                    item.TenSanPham }}</a>
+                                                            </h3>
+
+                                                            <div class="price-box">
+                                                                {{ item.giaban }}
+                                                                <span class="compare-price">{{ item.GiaKhuyenMai
+                                                                    }}đ</span>
+                                                            </div>
+                                                            <button type="button"
+                                                                (click)="redirectodetail(item.MaSanPham)"
+                                                                class="btn-cart">Tùy chỉnh</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="quickView">
+    <div class="quickView__overlay">
+    </div>
+    <div class="quickView__product">
+        <div class="grid">
+            <div class="row">
+                <div class="col c-12 m-12 l-5 box_detail_image">
+                    <div class="box_image">
+                        <img class="image_item" [src]="selectedImagePathQuickView" alt="">
+                    </div>
+
+                    <div class="slick-track">
+                        <div class="slick-slide" *ngFor="let item of listDetailProductImgQuickView,let i = index"
+                            [ngClass]="{'active': i === selectedImageIndexQuickview}" (click)="selectImageQuickView(i)">
+                            <img [src]="'http://localhost:8000/'+item" alt="">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col c-12 12 l-7 box_detail_content">
+                    <form action="" id="form-detail">
+                        <h1 class="title-name-pro">
+                            {{ detailproduct[0].TenSanPham }}
+                        </h1>
+
+                        <div class="group-band-status">
+                            <p class="band">
+                                Thương hiệu: <span>{{ detailproduct[0].TenHang }}</span>
+                            </p> | <p class="status">
+                                Tình trạng: <span>còn hàng</span>
+                            </p>
+                        </div>
+
+                        <div class="price-pro">
+                            <h3>{{ detailproduct[0].GiaBan }}đ</h3>
+                            <span>{{ detailproduct[0].GiaKhuyenMai }}đ</span>
+                        </div>
+
+                        <div class="description-pro">
+                            <p> - Bảo hành: 12 tháng</p>
+                            <p>- Xuất xứ: Mỹ</p>
+                            <p> - Chất liệu: Vải </p>
+
+                        </div>
+
+                        <div class="color-pro">
+                            <label for="size">Kích thước</label>
+                            <select name="size" id="size"
+                                style="outline: none; padding: 3px 5px;margin-bottom: 10px;border: 1px solid #9999;margin-left: 5px;"
+                                (change)="onChangeSize($event)">
+                                <option *ngFor="let item of datasizebyproid" [value]="item.MaKichThuoc">{{
+                                    item.TenKichThuoc }}</option>
+                            </select>
+                        </div>
+
+                        <div class="color-pro">
+                            <label for="color">Màu sắc</label>
+                            <select name="color" id="color"
+                                style="outline: none; padding: 3px 5px;border: 1px solid #9999;margin-left: 5px;"
+                                (change)="onChangeColor($event)">
+                                <option *ngFor="let item of datacolorbyproid" [value]="item.MaMau">{{ item.TenMau }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="quantity-pro">
+                            <span>Số lượng: {{ SoLuongTon }}</span>
+                            <div class="input_number_product">
+                                <input #cartInput type="text" min="1" width="3" value="1">
+                                <button type="button" #addQuantityButton class="add_quantity"><i
+                                        class="fa-solid fa-plus"></i></button>
+                                <button type="button" #minusQuantityButton class="minus_quantity"><i
+                                        class="fa-solid fa-minus"></i></button>
+                            </div>
+
+                            <div class="sb-cart">
+                                <button type="submit" class="add-cart" (click)="addcartdetail(dataCart)">Thêm vào giỏ
+                                    hàng</button>
+                            </div>
+
+                            <p>Gọi <span>1900 6750</span> để được giúp đỡ</p>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="quickView__close">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

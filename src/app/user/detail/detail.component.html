@@ -1,0 +1,345 @@
+<app-header></app-header>
+<div class="container breadcrumb">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-12 breadcrumb_box">
+                <a href="index.html">Trang chủ</a> <span>/</span> <a href="category.html">Tất cả sản phẩm</a>
+                <span>/</span> <a style="color: #35c0c5;" href="detailproduct.html">Chi tiết sản phẩm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="container detail-products">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-5 box_detail_image">
+                <div class="box_image">
+                    <img [src]="selectedImagePath" class="image_item" alt="">
+                </div>
+                <div class="slick-track">
+                    <div class="slick-slide" *ngFor="let img of listDetailProductImg; let i = index" [ngClass]="{'active': i === selectedImageIndex}" (click)="selectImage(i)">
+                        <img [src]="'http://localhost:8000/' + img" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col c-12 12 l-7 box_detail_content">
+                <form action="" id="form-detail">
+                    <h1 class="title-name-pro">
+                        {{ detailproduct[0].TenSanPham }}
+                    </h1>
+
+                    <div class="group-band-status">
+                        <p class="band">
+                            Thương hiệu: <span> {{ detailproduct[0].TenHang }}</span>
+                        </p> | <p class="status">
+                            Tình trạng: <span>còn hàng</span>
+                        </p>
+                    </div>
+
+                    <div class="price-pro">
+                        <h3> {{ detailproduct[0].GiaBan | number}}đ</h3>
+                        <span> {{ detailproduct[0].GiaKhuyenMai | number }}đ</span>
+                    </div>
+
+                    <div class="description-pro">
+
+                        <p> Mô tả: {{ detailproduct[0].MoTaNgan }}</p>
+
+                    </div>
+
+                    <div class="color-pro">
+                        <span>Màu sắc</span>
+                        <select name="color" id="color-item" (change)="onChangeColor($event)">
+                            <option *ngFor="let item of datacolorbyproid" [value]="item.MaMau">{{ item.TenMau }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="size-pro">
+                        <span>Kích thước</span>
+                        <div class="radio-size-group">
+                            <div *ngFor="let item of datasizebyproid">
+                                <input type="radio" name="size" [id]="'size-item-' + item.MaKichThuoc"
+                                    [value]="item.MaKichThuoc" [(ngModel)]="selectedSize"
+                                    (change)="onChangeSize($event)">
+                                <label [for]="'size-item-' + item.MaKichThuoc">{{ item.TenKichThuoc }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quantity-pro">
+                        <span>Số lượng: {{ SoLuongTon }}</span>
+                        <div class="input_number_product">
+                            <input [(ngModel)]="quantityCartDetail" type="text" min="1" width="3" [ngModelOptions]="{standalone: true}">
+                            <button type="button" (click)="downQuantityCartDetail()" class="add_quantity"><i class="fa-solid fa-plus"></i></button>
+                            <button type="button" (click)="upQuantityCartDetail()" class="minus_quantity"><i class="fa-solid fa-minus"></i></button>
+                        </div>
+
+                        <div class="sb-cart">
+                            <button type="submit" (click)="addCartDetail(dataCart)" class="add-cart">Thêm vào giỏ hàng</button>
+                        </div>
+
+                        <p>Gọi <span>1900 6750</span> để được giúp đỡ</p>
+                    </div>
+
+                    <div class="box-tag">
+                        Tags: <a href="#">Chuck Taylo</a> <a href="#">converse</a> <a href="#">Giày tây</a> <a
+                            href="#">Giày vải</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Mô tả sản phẩm -->
+            <div class="col c-12 m-12 l-12 box_description">
+                <div class="tabs-title">
+                    <div class="tab-link" [class.active]="activeTabIndex == 0" (click)="activateTab($event, 0)">
+                        <a href="#">THÔNG TIN SẢN PHẨM</a>
+                    </div>
+                    <div class="tab-link" [class.active]="activeTabIndex == 1" (click)="activateTab($event, 1)">
+                        <a href="#">THANH TOÁN VẬN CHUYỂN</a>
+                    </div>
+                    <div class="tab-link" [class.active]="activeTabIndex == 2" (click)="activateTab($event, 2)">
+                        <a href="#">ĐÁNH GIÁ SẢN PHẨM</a>
+                    </div>
+                </div>
+
+                <div class="tab-float">
+                    <div class="tab-item" [class.active]="activeTabIndex == 0">
+                        <p>
+                            {{ detailproduct[0].MoTa }}
+                        </p>
+
+                    </div>
+                    <div class="tab-item" [class.active]="activeTabIndex == 1">
+                        <p>
+                            Nội dung viết ở đây
+                        </p>
+                    </div>
+
+                    <div class="grid tab-item" [class.active]="activeTabIndex == 2">
+                        <div class="row box_evaluate">
+                            <div class="col c-6 m-6 l-6 average_rating">
+                                <div class="average_rating_content">
+                                    <h3 class="title">
+                                        Sao trung bình
+                                    </h3>
+                                    <h1 class="point_rating">
+                                        {{ feedBackMediumStar }}
+                                    </h1>
+                                    <p class="quantity_rating">
+                                        ({{ feedBacks.length }} lượt đánh giá)
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="col c-6 m-6 l-6 evalution_parameter">
+                                <h5 class="title">
+                                    {{ feedBacks.length }} lượt đánh giá
+                                </h5>
+                                <p class="evalution_start">5<i class="fa-solid fa-star"></i><i
+                                        class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                        class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    Có {{ feedBack5star }} lượt đánh giá
+                                </p>
+                                <p class="evalution_start">4<i class="fa-solid fa-star"></i><i
+                                        class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                        class="fa-solid fa-star"></i>
+                                    Có {{ feedBack4star }} lượt đánh giá
+                                </p>
+                                <p class="evalution_start">3<i class="fa-solid fa-star"></i><i
+                                        class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    Có {{ feedBack3star }} lượt đánh giá
+                                </p>
+                                <p class="evalution_start">2<i class="fa-solid fa-star"></i><i
+                                        class="fa-solid fa-star"></i>
+                                    Có {{ feedBack2star }} lượt đánh giá
+                                </p>
+                                <p class="evalution_start">1<i class="fa-solid fa-star"></i>
+                                    Có {{ feedBack1star }} lượt đánh giá
+                                </p>
+                            </div>
+
+                            <div class="col c-12 m-12 l-12 evalution_comment_box">
+                                <div class="evalution_comment">
+                                    <label for="area_comment">Viết đánh giá của bạn</label>
+                                    <div>
+                                        <textarea [(ngModel)]="feedBack.BinhLuan" name="area_comment" id="area_comment" style="width: 100%;"
+                                            rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <div class="btn_evulution_comment">
+                                    <div class="picture_comment">
+                                        <input #fileinput type="file" style="display:none;" (change)="upfile($event)" id="file" />
+                                        <i class="fa-solid fa-camera" (click)="fileinput.click()"></i>
+                                        <span class="chosse_evulation_start" (mouseleave)="resetStars()">
+                                            <i #star1 class="fa-solid fa-star" (mouseenter)="hoverStar(0)" (click)="clickStar(0)"></i>
+                                            <i #star2 class="fa-solid fa-star" (mouseenter)="hoverStar(1)" (click)="clickStar(1)"></i>
+                                            <i #star3 class="fa-solid fa-star" (mouseenter)="hoverStar(2)" (click)="clickStar(2)"></i>
+                                            <i #star4 class="fa-solid fa-star" (mouseenter)="hoverStar(3)" (click)="clickStar(3)"></i>
+                                            <i #star5 class="fa-solid fa-star" (mouseenter)="hoverStar(4)" (click)="clickStar(4)"></i>
+                                        </span>
+                                        <i style="margin-left: 7px;cursor: pointer;line-height: 10px" (click)="newStars()" class="fa-solid fa-arrows-rotate"></i>
+                                        <div style="margin-top: 5px;">
+                                            <img [src]="imageSrc" style="width: 100px;" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="btn_comment">
+                                        <button (click)="btnEvaluate()">Đánh giá</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col c-12 m-12 l-12 comment_box">
+                                <div class="item_comment" *ngFor="let item of feedBacks">
+                                    <img [src]="getImageCustomerId(item.MaKhachHang)" alt="">
+                                    <div class="info_customer">
+                                         <h3>
+                                            {{ item.HoVaTen }}
+                                         </h3>
+                                         <span *ngFor="let item of getStars(item.SoSao)">
+                                            <i class="fa-solid fa-star"></i>
+                                         </span>
+                                         <p style="font-style: oblique;">{{ item.NgayDang | date:'HH:mm:ss, dd-MM-yyyy' }}</p>
+                                         <p style="color: black;">{{ item.BinhLuan }}</p>
+                                         <img [hidden]="!item.HinhAnh" [src]="item.HinhAnh ? 'http://localhost:8000/'+item.HinhAnh : '' " alt="">
+                                    </div>
+                                </div>
+                              
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sản phẩm liên quan -->
+            <div class="col c-12 m-12 l-12 title-new-pro">
+                <h2 class="content-title-newpro">
+                    SẢN PHẨM LIÊN QUAN
+                </h2>
+                <hr style="margin-top: 15px;  opacity: 0.5;height: 1px;">
+                <hr style="margin-top: 5px;  opacity: 0.5;height: 1px;">
+            </div>
+            <div class="col c-12 m-6 l-3 item-main" *ngFor="let item of relatedProduct.slice(0,3)">
+                <div class="item-product-main">
+                    <form action="" class="product-action">
+                        <div class="product-thumbnail">
+                            <a routerLink="/detail/{{ item.MaSanPham }}" class="product-overlay"></a>
+                            <a routerLink="/detail/{{ item.MaSanPham }}" class="product-img-link">
+                                <img [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg'" class="product-img" alt="">
+                            </a>
+                            <div class="saleright">
+                                <span *ngIf="item.GiaKhuyenMai">-{{ solvediscount(item.Gia,item.GiaKhuyenMai) }}%</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <p class="product-name">
+                                <a routerLink="/detail/{{ item.MaSanPham }}">{{ item.TenSanPham }}</a>
+                            </p>
+                            <div class="price-box">
+                                Giá {{ item.GiaKhuyenMai | number}}₫
+                                <span class="compare-price">{{ item.Gia | number }}₫</span>
+                            </div>
+                        </div>
+                        <div class="product-action">
+                            <button class="btn-cart" (click)="addcart(item)">Tùy chọn</button>
+                            <a href="#" (click)="showquickview($event, item.MaSanPham, item.MaMau)" class="link-info-pro">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<div class="quickView">
+    <div class="quickView__overlay">
+    </div>
+    <div class="quickView__product">
+      <div class="grid">
+          <div class="row">
+              <div class="col c-12 m-12 l-5 box_detail_image">
+                  <div class="box_image">
+                      <img class="image_item" [src]="selectedImagePathQuickView" alt="">
+                  </div>
+
+                  <div class="slick-track">
+                      <div class="slick-slide" *ngFor="let item of listDetailProductImgQuickView,let i = index" [ngClass]="{'active': i === selectedImageIndexQuickview}" (click)="selectImageQuickView(i)">
+                          <img [src]="'http://localhost:8000/'+item" alt="">
+                      </div>
+                      
+                  </div>
+              </div>
+
+              <div class="col c-12 12 l-7 box_detail_content">
+                  <form action="" id="form-detail">
+                      <h1 class="title-name-pro">
+                          {{ detailproduct[0].TenSanPham }}
+                      </h1>
+
+                      <div class="group-band-status">
+                          <p class="band">
+                              Thương hiệu: <span>{{ detailproduct[0].TenHang }}</span>
+                          </p> | <p class="status">
+                              Tình trạng: <span>còn hàng</span>
+                          </p>
+                      </div>
+
+                      <div class="price-pro">
+                          <h3>{{ detailproduct[0].GiaBan }}đ</h3>
+                          <span>{{ detailproduct[0].GiaKhuyenMai }}đ</span>
+                      </div>
+
+                      <div class="description-pro">
+                          <p> - Bảo hành: 12 tháng</p>
+                          <p>- Xuất xứ: Mỹ</p>
+                          <p> - Chất liệu: Vải </p>
+
+                      </div>
+
+                      <div class="color-pro">
+                        <label for="size">Kích thước</label>
+                        <select name="size" id="size" style="outline: none; padding: 3px 5px;margin-bottom: 10px;border: 1px solid #9999;margin-left: 5px;" (change)="onChangeSizeQuickView($event)">
+                          <option *ngFor="let item of datasizequickviewbyproid" [value]="item.MaKichThuoc">{{ item.TenKichThuoc }}</option>
+                        </select>
+                      </div>
+
+                      <div class="color-pro">
+                          <label for="color">Màu sắc</label>
+                          <select name="color" id="color" style="outline: none; padding: 3px 5px;border: 1px solid #9999;margin-left: 5px;" (change)="onChangeColorQuickView($event)">
+                            <option *ngFor="let item of datacolorquickviewbyproid" [value]="item.MaMau">{{ item.TenMau }}</option>
+                          </select>
+                      </div>
+
+                      <div class="quantity-pro">
+                          <span>Số lượng: {{ SoLuongTonXemNhanh }}</span>
+                          <div class="input_number_product">
+                              <input #cartInput type="text" min="1" width="3" value="1">
+                              <button type="button" #addQuantityButton class="add_quantity"><i class="fa-solid fa-plus"></i></button>
+                              <button type="button" #minusQuantityButton class="minus_quantity"><i
+                                      class="fa-solid fa-minus"></i></button>
+                          </div>
+
+                          <div class="sb-cart">
+                              <button type="submit" class="add-cart" (click)="addcartquickviewdetail(dataCartQuickview)">Thêm vào giỏ hàng</button>
+                          </div>
+
+                          <p>Gọi <span>1900 6750</span> để được giúp đỡ</p>
+                      </div>
+
+                  </form>
+              </div>
+
+              <div class="quickView__close">
+                  <i class="fa-solid fa-xmark"></i>
+              </div>
+          </div>
+        </div>
+      </div>
+</div>
+<app-footer></app-footer>

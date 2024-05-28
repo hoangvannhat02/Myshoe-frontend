@@ -1,0 +1,340 @@
+<app-header></app-header>
+<div class="container breadcrumb">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-12 breadcrumb_box">
+                <a href="index.html">Trang chủ</a> <span>/</span> <a href="category.html">Tất cả sản phẩm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="container">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-3 slidebar_index">
+                <div class="aside-title">
+                    <h2 class="title-header">
+                        DANH MỤC SẢN PHẨM
+                    </h2>
+                </div>
+                <div class="aside-content">
+                    <nav class="nav-category">
+                        <ul class="nav">
+                            <li class="nav-item" *ngFor="let item of categoryproducts">
+                                <div class="box-item">
+                                    <a style="cursor: pointer;" class="nav-link" [ngClass]="{'active':(item.MaLoai === id)}" (click)="changecate(item.MaLoai)">
+                                        {{ item.TenLoai }}
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+                <div class="aside-item" style="border-top: 1px solid rgba(0,0,0,0.1);margin-top: 10px;">
+                    <div class="aside-title" (click)="toggleRotateClass(0)">
+                        <h2 class="title-header">
+                            Hãng
+                        </h2>
+                        <i class="fa-solid fa-angle-right" [ngClass]="{'rotate-up': isRotated[0]}"
+                            ></i>
+                    </div>
+                    <div class="box-item-data" [ngClass]="{'show':isRotated[0]}">
+                        <div class="item-data" *ngFor="let item of brands">
+                            <label for="brand">
+                                <input type="checkbox" name="brand" [checked]="isCheckedBrand(item.MaHang)" (change)="clickcheckboxbrand($event,item.MaHang)">
+                                {{ item.TenHang }}
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aside-item">
+                    <div class="aside-title" (click)="toggleRotateClass(1)">
+                        <h2 class="title-header">
+                            Màu
+                        </h2>
+                        <i class="fa-solid fa-angle-right" [ngClass]="{'rotate-up': isRotated[1]}"
+                        ></i>
+                    </div>
+                    <div class="box-item-data" [ngClass]="{'show':isRotated[1]}">
+                        <div class="item-data" *ngFor="let item of colors">
+                            <label for="color">
+                                <input type="checkbox" name="color" [checked]="isCheckedColor(item.MaMau)" (change)="clickcheckboxcolor($event,item.MaMau)">
+                                {{ item.TenMau }}
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aside-item">
+                    <div class="aside-title" (click)="toggleRotateClass(2)">
+                        <h2 class="title-header">
+                            Kích thước
+                        </h2>
+                        <i class="fa-solid fa-angle-right" [ngClass]="{'rotate-up': isRotated[2]}"
+                            ></i>
+                    </div>
+                    <div class="box-item-data" [ngClass]="{'show':isRotated[2]}">
+                        <div class="item-data" *ngFor="let item of sizes">
+                            <label for="size">
+                                <input type="checkbox" name="size" [checked]="isCheckedSize(item.MaKichThuoc)" (change)="clickcheckboxsize($event,item.MaKichThuoc)" >
+                                {{ item.TenKichThuoc }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aside-item">
+                    <div class="aside-title" (click)="toggleRotateClass(3)">
+                        <h2 class="title-header">
+                            Khoảng giá
+                        </h2>
+                        <i class="fa-solid fa-angle-right" [ngClass]="{'rotate-up': isRotated[3]}"
+                            ></i>
+                    </div>
+                    <div class="box-item-data" [ngClass]="{'show':isRotated[3]}">
+                        <div class="item-data">
+                            <label for="size">
+                                <input type="checkbox" name="size" [checked]="isCheckedRangePrice(0,500000)" (change)="clickcheckbox($event,0,500000)">
+                                Dưới 500.000đ
+                            </label>
+                        </div>
+                        <div class="item-data">
+                            <label for="size">
+                                <input type="checkbox" name="size" [checked]="isCheckedRangePrice(500000,1000000)" (change)="clickcheckbox($event,500000,1000000)">
+                                500.000đ-1.000.000đ
+                            </label>
+                        </div>
+                        <div class="item-data">
+                            <label for="size">
+                                <input type="checkbox" name="size" [checked]="isCheckedRangePrice(1000000,2500000)" (change)="clickcheckbox($event,1000000,2500000)">
+                                1.000.000đ-2.500.000đ
+                            </label>
+                        </div>
+                        <div class="item-data">
+                            <label for="size">
+                                <input type="checkbox" name="size" [checked]="isCheckedRangePrice(2500000,10000000)" (change)="clickcheckbox($event,2500000,10000000)">
+                                2.500.000đ-10.000.000đ
+                            </label>
+                        </div>
+                        <div class="item-data">
+                            <label for="size">
+                                <input type="checkbox" name="size" [checked]="isCheckedRangePrice(10000000,100000000)" (change)="clickcheckbox($event,10000000,100000000)">
+                                Trên 10.000.000đ
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aside-item">
+                    <div class="aside-title">
+                        <h2 class="title-header">
+                            <a href="#">SẢN PHẨM BÁN CHẠY</a>
+                        </h2>
+                    </div>
+
+                    <div class="item_product_main">
+                        <form class="product-action" *ngFor="let item of sellingproduct.slice(0,displayedProducts)">
+                            <div class="product-thumbnail">
+                                <a routerLink="/detail/{{ item.MaSanPham }}"><img
+                                        [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg' "></a>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-img">
+                                    <a routerLink="/detail/{{ item.MaSanPham }}">{{ item.TenSanPham }}</a>
+                                </h3>
+
+                                <div class="price-box">
+                                    {{ item.giaban | number }}₫
+                                    <span class="compare-price">{{ item.GiaKhuyenMai | number}}₫</span>
+                                </div>
+                                <button type="button" (click)="redirectodetail(item.MaSanPham)" class="btn-cart">Tùy
+                                    chọn</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <!-- Xem thêm sản phẩm -->
+                <div class="aside-item" *ngIf="displayedProducts < sellingproduct.length">
+                    <div class="link-more">
+                        <a (click)="showMoreSellingProducts($event,10)" href="">Xem thêm sản phẩm</a>
+                    </div>
+                </div>
+                <div class="aside-item" *ngIf="displayedProducts >= sellingproduct.length">
+                    <div class="link-more">
+                        <a (click)="showMoreSellingProducts($event,2)" href="">Ẩn bớt</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col c-12 12 l-9 slider">
+                <div class="grid">
+                    <div class="row">
+                        <div class="col c-12 m-12 l-12 title-catgory-product">
+                            <h2 class="content_title_all">
+                                TẤT CẢ SẢN PHẨM
+                            </h2>
+                        </div>
+
+                        <div class="col c-12 m-9 l-9 title-catgory-product">
+                            <div class="sort-cate">
+                                <label class="sort_by">Sắp xếp:</label>
+                                <ul class="ul_col">
+                                    <li>
+                                        <span style="cursor: pointer;">
+                                            {{ filltername }} <i class="fa-solid fa-angle-down"></i>
+                                        </span>
+                                        <ul class="content_ul">
+                                            <li>
+                                                <a (click)="sortdata('default',$event)" href="#">Mặc định</a>
+                                            </li>
+                                            <li>
+                                                <a (click)="sortdata('nameaz',$event)" href="#">A → Z</a>
+                                            </li>
+                                            <li>
+                                                <a (click)="sortdata('nameza',$event)" href="#">Z → A</a>
+                                            </li>
+                                            <li>
+                                                <a (click)="sortdata('priceascending',$event)" href="#">Giá tăng dần</a>
+                                            </li>
+                                            <li>
+                                                <a (click)="sortdata('pricedecending',$event)" href="#">Giá giảm dần</a>
+                                            </li>
+                                            <li>
+                                                <a (click)="sortdata('new',$event)" href="#">Hàng mới nhất</a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="box-fillter-show">
+                                <label for="show">Hiển thị</label>
+                                <select name="show" [(ngModel)]="itemsPerPage" (change)="changeoptionshow(itemsPerPage)">
+                                    <option value="1" [selected]="itemsPerPage === 1">1</option>
+                                    <option value="2" [selected]="itemsPerPage === 2">2</option>
+                                    <option value="5" [selected]="itemsPerPage === 5">5</option>
+                                    <option value="10" [selected]="itemsPerPage === 10">10</option>
+                                    <option value="20" [selected]="itemsPerPage === 20">20</option>
+                                </select>
+                                Sản phẩm
+                            </div>
+                        </div>
+
+                        <div class="col c-0 m-3 l-3 view-mode">
+                            <div [ngClass]="view ? 'view_mode_grid active' : 'view_mode_grid'">
+                                <i class="fa-solid fa-grip"></i>
+                                <span (click)="changeview(true)">Lưới</span>
+                            </div>
+
+                            <div [ngClass]="!view ? 'view_mode_list active':'view_mode_list'">
+                                <i class="fa-solid fa-bars"></i>
+                                <span (click)="changeview(false)">Danh sách</span>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="view">
+                            <div class="col c-12 m-4 l-4 item-main" *ngFor="let item of products">
+                                <form action="" class="product-action">
+                                    <div class="product-thumbnail">
+                                        <a href="detailproduct.html" class="product-overlay"></a>
+                                        <a href="detailproduct.html" class="product-img-link">
+                                            <img title="Giày tây nâu đỏ thương hiệu Converse All Star"
+                                                [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg'"
+                                                class="product-img" alt="">
+                                        </a>
+                                        <div class="saleright">
+                                            <span *ngIf="item.GiaKhuyenMai">- {{
+                                                solvediscount(item.Gia,item.GiaKhuyenMai)
+                                                }}%</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <p class="product-name">
+                                            <a routerLink="/detail/{{ item.MaSanPham }}">{{ item.TenSanPham }}</a>
+                                        </p>
+                                        <div class="price-box">
+                                            Giá {{ item.GiaKhuyenMai | number}}₫
+                                            <span class="compare-price">{{ item.Gia | number }}₫</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-action">
+                                        <button class="btn-cart">Tùy chọn</button>
+                                        <a href="#" class="link-info-pro">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </ng-container>
+
+
+                        <ng-container *ngIf="!view">
+                            <div class="col c-12 m-12 l-12 item-main view_list" *ngFor="let item of products">
+                                <form action="" class="product-action">
+                                    <div class="product-thumbnail">
+                                        <a href="detailproduct.html" class="product-overlay"></a>
+                                        <a href="detailproduct.html" class="product-img-link">
+                                            <img title="Giày tây nâu đỏ thương hiệu Converse All Star"
+                                                [src]=" item.DuongDan ? ('http://localhost:8000/'+item.DuongDan) : 'assets/my-ui/image/noimg.jpg'"
+                                                class="product-img" alt="">
+                                        </a>
+                                        <div class="saleright">
+                                            <span *ngIf="item.GiaKhuyenMai">- {{
+                                                solvediscount(item.Gia,item.GiaKhuyenMai)
+                                                }}%</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <p class="product-name">
+                                            <a routerLink="/detail/{{ item.MaSanPham }}">{{ item.TenSanPham }}</a>
+                                        </p>
+                                        <div class="price-box">
+                                            Giá {{ item.GiaKhuyenMai | number}}₫
+                                            <span class="compare-price">{{ item.Gia | number }}₫</span>
+                                        </div>
+                                        <div class="box-description">
+                                            <p>{{ item.MoTa }}
+                                            </p>
+                                        </div>
+                                        <div class="box-action">
+                                            <button class="btn-cart">Tùy chọn</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </ng-container>
+
+                        <div class="col c-12 m-12 l-12" style="display: flex;justify-content: center;">
+                            <app-pagination [currentPage]="this.currentPage" [itemsPerPage]="this.itemsPerPage"
+                                [totalItems]="this.backproducts.length" (pageChange)="onPageChange($event)">
+                            </app-pagination>
+                        </div>
+
+                        <!-- <div class="col c-12 m-12 l-12 pagination">
+                            <div class="list_pagination">
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#"><i class="fa-solid fa-angle-right"></i></a>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<app-footer></app-footer>

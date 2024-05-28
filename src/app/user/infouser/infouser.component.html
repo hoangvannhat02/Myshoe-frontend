@@ -1,0 +1,258 @@
+<app-header></app-header>
+<div class="container breadcrumb">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col c-12 m-12 l-12 breadcrumb_box">
+                <a routerLink="/">Trang chủ</a> <span>/</span> <a routerLink="/infouser">Thông tin tài khoản</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container box_infouser">
+    <div class="grid wide">
+        <div class="row">
+            <div *ngIf="isInfo" class="col c-12 m-6 l-4 short_infouser">
+                <div class="img_user">
+                    <img [src]="customer.Anh.startsWith('https') ? this.customer.Anh : 'http://localhost:8000/' + this.customer.Anh" alt="">
+                </div>
+
+                <!-- <div class="transition_img_user">
+                   
+                    <button>Đổi ảnh</button>
+                </div> -->
+
+                <div class="name_user">
+                    {{ customer.HoVaTen }}
+                </div>
+
+                <!-- <div class="phone_user">
+                    <i> {{ customer.SoDienThoai }}</i> <span><a>Xác thực</a></span>
+                </div> -->
+                
+
+                <div class="email_user">
+                    <i>{{ customer.Email }}</i> 
+                    <span *ngIf="customer.XacThucEmail === 1"><i style="color:green;font-size: larger;margin-left: 5px;" class="fa-solid fa-check"></i></span>
+                    <span *ngIf="customer.XacThucEmail === 0"><a (click)="sendVerificationEmail(customer.Email)">Xác thực</a></span> 
+                </div>
+            </div>
+
+            <div *ngIf="isInfo" class="col c-12 m-12 l-6 input_user">
+                 <form *ngIf="isInfo" action="" class="form_info_user">
+                    <h3 class="title_info_user">Thông tin người dùng</h3>
+
+                    <label for="fullname">Họ và tên:
+                        <input type="text" [(ngModel)]="customer.HoVaTen" name="fullname" class="form-control-input-user" placeholder="Nhập họ và tên">
+                    </label>
+                    <div class="message-error" *ngIf="submitted">
+                        <ng-container *ngIf="customer.HoVaTen.length === 0">
+                            {{ 'Không được để trống' }}
+                        </ng-container>
+                    </div>
+
+                    <label for="address">Địa chỉ:
+                        <input type="text" [(ngModel)]="customer.DiaChi" name="address" class="form-control-input-user" placeholder="Địa chỉ">
+                    </label>
+                    <div class="message-error" *ngIf="submitted">
+                        <ng-container *ngIf="customer.DiaChi.length === 0">
+                            {{ 'Không được để trống' }}
+                        </ng-container>
+                    </div>
+                    <label for="email">Email:
+                        <input type="email" [(ngModel)]="customer.Email" name="email" class="form-control-input-user" placeholder="Email">
+                    </label>
+                    <div class="message-error" *ngIf="submitted">
+                        <ng-container *ngIf="customer.Email.length === 0">
+                            {{ 'Không được để trống.' }}
+                        </ng-container>
+                        <ng-container *ngIf="!isValidEmail(customer.Email)">
+                            {{ ' Không đúng định dạng email' }}
+                        </ng-container>
+                    </div>
+                    <label for="phonenumber">Số điện thoại:
+                        <input type="text" [(ngModel)]="customer.SoDienThoai" name="phonenumber" class="form-control-input-user"
+                            placeholder="Số điện thoại">
+                    </label>
+                    <div class="message-error" *ngIf="submitted">
+                        <!-- <ng-container *ngIf="customer.SoDienThoai.length <= 6 || customer.SoDienThoai.length > 10">
+                            {{ 'Số điện thoại phải lớn hơn 6 số nhỏ hơn 10 số' }}
+                        </ng-container> -->
+                        <ng-container *ngIf="!isValidPhoneNumber(customer.SoDienThoai)">
+                            {{ 'Số điện thoại phải lớn hơn 6 số nhỏ hơn 10 số' }}
+                        </ng-container>
+                    </div>
+
+                    <!-- <label for="password">Mật khẩu:
+                        <input type="password" [(ngModel)]="customer.PassWord" name="password" class="form-control-input-user" placeholder="Mật khẩu">
+                    </label> -->
+
+                    <label for="imguser">Ảnh đại diện
+                        <input #fileinput type="file" name="file" (change)="upfile($event)" id="file" style="border: none;" class="form-control-input-user">
+                        <img [src]="imageSrc" style="width: 80px;" alt="">
+                    </label>
+                    <br>
+                    <button type="submit" class="btn_save_change_info_user" (click)="update()">Lưu & thay đổi</button>
+                </form> 
+            </div>
+
+            <div *ngIf="isInfoBill || isVoucher || isPassword" class="col c-12 m-12 l-10">
+                <div *ngIf="isVoucher" class="grid">
+                    <div class="row box_store_voucher">
+                        <h3 class="col c-12 m-12 l-12 title_box_store_voucher">Kho voucher</h3>
+
+                        <div class="col c-12 m-12 l-5 voucher_item"  *ngFor="let item of vouchers">
+                            <div class="voucher_img">
+                                <img src="../../../assets/my-ui/image/voucher.png" class="icon_voucher" alt="">
+                            </div>
+                            <div class="box_voucher_item">
+                                <h3 class="voucher_title">{{ item.TenPhieu }} - ({{ item.SoLuong }})</h3>
+                                <p class="voucher_content">Đơn giá nằm trong: {{ item.GiaTriNhoNhat | currency:'VND' }} - {{ item.GiaTriLonNhat | currency:'VND' }}</p>
+                                <p class="voucher_expire">
+                                    Từ ngày {{ item.NgayBatDau | date:"dd/MM/yyyy" }} - {{ item.NgayKetThuc | date:"dd/MM/yyyy" }}
+                                </p>
+                            </div>
+                            <div class="btn_voucher">
+                                <button (click)="useVoucher(checkdate(item.NgayBatDau,item.NgayKetThuc))">Dùng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="isPassword" class="grid">
+                    <div class="row box_info_bills">
+                        <h3 class="col c-12 m-12 l-8 l-o-2 title_box_info_bills">Đổi mật khẩu</h3>
+
+                        <div class="col c-12 m-8 l-8 l-o-2 content_infobill_user" style="padding-top: 10px;">
+                            <ng-container *ngIf="datacustomerbyidlogin.PassWord.length > 0">
+                                <form [formGroup]="formPassword" (ngSubmit)="replayPassWord()" class="form_info_user">   
+                                    <label for="password">Mật khẩu cũ:
+                                        <input type="password" name="password" formControlName="password" class="form-control-input-user" placeholder="Mật khẩu">
+                                    </label> 
+                                    <div class="message-error" *ngIf="(formPassword.get('password')?.hasError('required')) && (formPassword.get('password')?.touched || submitted)">
+                                        {{ formPassword.get('password')?.hasError('required') ? 'Không được để trống' : '' }}
+                                    </div>      
+                                    <div class="message-error" *ngIf="notExistPassWord">
+                                        PassWord không chính xác
+                                    </div>  
+                                    <label for="newpass">Mật khẩu mới:
+                                        <input type="text" name="newpass" formControlName="newpass" class="form-control-input-user" placeholder="Mật khẩu mới">
+                                    </label>
+                                    <div class="message-error" *ngIf="(formPassword.get('newpass')?.hasError('required') || formPassword.get('newpass')?.hasError('minlength')) && (formPassword.get('newpass')?.touched || submitted)">
+                                        {{ formPassword.get('newpass')?.hasError('required') ? 'Không được để trống' : 'Mật khẩu mới phải có ít nhất 3 ký tự.' }}
+                                    </div>
+                
+                                    <label for="reinputnewpass">Nhập lại mật khẩu mới:
+                                        <input type="text" name="reinputnewpass" formControlName="reinputnewpass" class="form-control-input-user" placeholder="Nhập lại mật khẩu mới" >
+                                    </label>
+                                    <div class="message-error" *ngIf="(formPassword.get('reinputnewpass')?.hasError('required') || formPassword.get('reinputnewpass')?.hasError('minlength')) && (formPassword.get('reinputnewpass')?.touched || submitted)">
+                                        {{ formPassword.get('reinputnewpass')?.hasError('required') ? 'Không được để trống' : 'Nhập lại mật khẩu mới phải có ít nhất 3 ký tự.' }}
+                                    </div>
+                                    <div class="message-error" *ngIf="formPassword.hasError('passwordMismatch') && submitted">
+                                        Mật khẩu nhập lại không khớp
+                                      </div>
+                                    <button type="submit" class="btn_save_change_info_user">Thay đổi</button>
+                                </form> 
+                            </ng-container>
+
+                            <ng-container *ngIf="datacustomerbyidlogin.PassWord.length === 0">
+                                <form [formGroup]="formNewPassword" (ngSubmit)="replayPassWord()" class="form_info_user">   
+                                    <h3 style="margin-bottom: 15px;">
+                                        Thêm mật khẩu 
+                                    </h3>
+                                    <label for="newpass2">Mật khẩu mới:
+                                        <input type="text" name="newpass2" formControlName="newpass2" class="form-control-input-user" placeholder="Mật khẩu mới">
+                                    </label>
+                                    <div class="message-error" *ngIf="(formNewPassword.get('newpass2')?.hasError('required') || formNewPassword.get('newpass2')?.hasError('minlength')) && (formNewPassword.get('newpass2')?.touched || submitted2)">
+                                        {{ formNewPassword.get('newpass2')?.hasError('required') ? 'Không được để trống' : 'Mật khẩu mới phải có ít nhất 3 ký tự.' }}
+                                    </div>
+                
+                                    <label for="reinputnewpass2">Nhập lại mật khẩu mới:
+                                        <input type="text" name="reinputnewpass2" formControlName="reinputnewpass2" class="form-control-input-user" placeholder="Nhập lại mật khẩu mới" >
+                                    </label>
+                                    <div class="message-error" *ngIf="(formNewPassword.get('reinputnewpass2')?.hasError('required') || formNewPassword.get('reinputnewpass2')?.hasError('minlength')) && (formNewPassword.get('reinputnewpass2')?.touched || submitted2)">
+                                        {{ formNewPassword.get('reinputnewpass2')?.hasError('required') ? 'Không được để trống' : 'Nhập lại mật khẩu mới phải có ít nhất 3 ký tự.' }}
+                                    </div>
+                                    <div class="message-error" *ngIf="formNewPassword.hasError('passwordMismatch2') && submitted2">
+                                        Mật khẩu nhập lại không khớp
+                                      </div>
+                                    <button type="submit" class="btn_save_change_info_user">Thay đổi</button>
+                                </form> 
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="isInfoBill" class="grid">
+                    <div class="row box_info_bills">
+                        <h3 class="col c-12 m-12 l-8 l-o-2 title_box_info_bills">Thông tin đơn hàng 
+                            <input type="date" style="text-align: center;margin-left: auto;margin-right: 5px;outline: none;padding: 5px;" name="billdate" id="billdate">
+                            <select  style="outline: none;border: 1px solid rgba(0, 0, 0, 0.2);padding: 5px;border-radius: 5px;" name="statuspayment" (change)="statusBill($event)" id="filterstatuspayment" [(ngModel)]="statusDefault">Lọc theo
+                                <option value="0">Đơn hàng chờ duyệt</option>
+                                <option value="1">Đơn hàng đang vận chuyển</option>
+                                <option value="2">Đơn hàng đã giao</option>
+                                <option value="3">Đơn hàng đã hủy</option>
+                            </select>
+                        </h3>
+                        <div class="col c-12 m-8 l-8 l-o-2 content_infobill_user" *ngFor="let x of databillsbypagination, let i = index">
+                           <h4 style="text-align: right;margin: 3px 2px;">Mã đơn: <span>{{ x.MaHoaDon }}</span></h4>
+                            <div class="item_content_infobill_user" *ngFor="let item of productinbills[i]">
+                                <div class="product_info">
+                                    <img [src]="'http://localhost:8000/'+item.DuongDan" alt="">
+                                    <div class="product_description">
+                                        <h4>{{ item.TenSanPham }}</h4>
+                                        <p>Kích thước:{{ item.TenKichThuoc }} | <span>Màu: {{ item.TenMau }}</span></p>
+                                        <p>x{{ item.SoLuong }}</p>
+                                    </div>
+                                </div>
+                                <div class="product_price">
+                                    {{ item.GiaKhuyenMai | number }}đ
+                                </div>
+                            </div>
+                            <div class="info_bill_extra_money">
+                                <ng-container *ngIf="productinbills[i] && productinbills[i].length > 0">
+                                    <p>Ngày đặt: <i>{{ productinbills[i][0].NgayTao | date:'dd/MM/yyyy' }}</i></p>
+                                    <p>Hình thức vận chuyển: <i>{{ productinbills[i][0].TenVanChuyen }}({{ productinbills[i][0].Gia|number }})</i></p>
+                                    <p>Phương thức thanh toán: <i>{{ x.HinhThucThanhToan }}</i></p>
+                                    <p *ngIf="productinbills[i][0].MaPhieu != null">Mã voucher: <i>{{ productinbills[i][0].TenPhieu }}</i></p>
+                                </ng-container>
+                            </div>
+                            <div class="info_bill_total">
+                                <nav>Trạng thái: <span>{{ x.TrangThai == 0 ? 'Chờ xét duyệt' : x.TrangThai == 1 ? 'Đang vận chuyển' : x.TrangThai == 2 ? 'Đã giao' :'Đã hủy'}}</span></nav>
+                                <p>Tổng số tiền: <span>{{ x.TongTien|number }}đ</span></p>
+                                <button class="destroy-btn" (click)="destroyBill(x)" *ngIf="x.TrangThai == 0 ">Hủy</button>
+                            </div>
+                        </div>
+                    </div>
+                    <app-pagination 
+                        [currentPage]="currentPage"
+                        [itemsPerPage]="itemsPerPage"
+                        [totalItems]="this.bills.length"
+                        (pageChange)="onPageChange($event)"
+                      >
+                    </app-pagination>
+                </div>
+            </div>
+
+            <div class="col c-12 m-12 l-2 input_user">
+                <div class="navigate_info_user">
+                    <h3>Danh mục</h3>
+                    <div class="file_user">
+                        <ul>
+                            <i class="fa-solid fa-user"></i><a>Tài khoản của tôi</a>
+                            <li (click)="infoclick()">Hồ sơ</li>
+                            <li (click)="passwordClick()">Đổi mật khẩu</li>
+                        </ul>
+                    </div>
+                    <div class="info_voucher_user">
+                        <i class="fa-solid fa-ticket"></i><a (click)="voucherclick()"> Kho voucher</a>
+                    </div>
+                    <div class="info_bill">
+                        <i class="fa-solid fa-basket-shopping"></i><a (click)="billclick()"> Hóa đơn mua</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<app-footer></app-footer>

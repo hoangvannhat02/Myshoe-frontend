@@ -1,0 +1,8 @@
+<div class="phone-otp">
+    <h2>Nhập mã otp xác thực</h2>
+    <ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="config"></ng-otp-input>
+    <button (click)="handleclickverify()">Xác thực otp</button>
+    <span>Bạn chưa nhận được mã, <a href="">gửi lại</a></span>
+</div>
+<div id="toast">
+</div>

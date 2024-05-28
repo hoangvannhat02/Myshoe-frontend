@@ -1,0 +1,351 @@
+<section class="grid fame-checkout">
+    <form [formGroup]="formCheckout" (submit)="submitPayment()">
+        <div class="row">
+            <div class="col c-12 m-8 l-8 info_receive">
+                <h1 class="title_order">
+                    Breshka shoes
+                </h1>
+
+                <div class="grid form-info">
+                    <div class="row">
+                        <div class="col c-12 m-6 l-6 lable_header">
+                            <div class="box-header">
+                                <h4>Thông tin nhận hàng</h4>
+                                <a href="#"><i class="fa-solid fa-circle-user"></i> Đăng nhập</a>
+                            </div>
+
+                            <!-- <div class="box-email">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email">
+                        </div> -->
+
+                            <div class="box-fullname">
+                                <!-- <label for="fullname">Họ và tên</label> -->
+                                <input [(ngModel)]="infoBill.NguoiNhan" formControlName="fullname" type="text" id="fullname"
+                                    placeholder="Họ và tên" name="fullname" required>
+                            </div>
+                            <div class="message-error" *ngIf="(formCheckout.get('fullname')?.hasError('required')) && (formCheckout.get('fullname')?.touched || submitted)">
+                                {{ formCheckout.get('fullname')?.hasError('required') ? 'Không được để trống' : '' }}
+                            </div>  
+
+                            <div class="box-phone">
+                                <!-- <label for="phone">Số điện thoại</label> -->
+                                <input [(ngModel)]="infoBill.DienThoai" type="text" formControlName="phonenumbers" id="phone"
+                                    placeholder="Số điện thoại" name="phone" required>
+                                <!-- <select name="phone" id="country-code">
+                                <option value="VietNam">Vietnam (+84)</option>
+                                <option value="Yemen">Yemen (+967)</option>
+                                <option value="Vatican">Vatican (+39)</option>
+                            </select> -->
+                            </div>
+                            <div class="message-error" *ngIf="formCheckout.get('phonenumbers')?.touched || submitted">
+                                <ng-container *ngIf="formCheckout.get('phonenumbers')?.hasError('required')">
+                                    {{ 'Không được để trống' }}
+                                </ng-container>
+                                <ng-container *ngIf="formCheckout.get('phonenumbers')?.hasError('minlength')">
+                                    {{ 'Số điện thoại phải có ít nhất 6 ký tự' }}
+                                </ng-container>
+                                <ng-container *ngIf="formCheckout.get('phonenumbers')?.hasError('maxlength')">
+                                    {{ 'Số điện thoại không được vượt quá 10 ký tự' }}
+                                </ng-container>
+                            </div>  
+
+
+                            <div class="box-address">
+                                <!-- <label for="address">Địa chỉ nhận(ghi rõ địa chỉ nhận)</label> -->
+                                <input [(ngModel)]="infoBill.DiaChiNhan" formControlName="address" type="text" placeholder="Địa chỉ nhận"
+                                    id="address" name="address">
+
+                            </div>
+                            <div class="message-error" *ngIf="(formCheckout.get('address')?.hasError('required')) && (formCheckout.get('address')?.touched || submitted)">
+                                {{ formCheckout.get('address')?.hasError('required') ? 'Không được để trống' : '' }}
+                            </div>  
+
+                            <!-- <div class="box-province">
+                            <label for="province">Tỉnh thành</label>
+                            <select name="billingProvince" id="billingProvince">
+                                <option value>---</option>
+                                <option value="1">Thanh Hóa</option>
+                                <option value="2">Hà Nội</option>
+                                <option value="3">TP Hồ Chí Minh</option>
+                                <option value="4">An Giang</option>
+                                <option value="5">Bà Rịa - Vũng Tàu</option>
+                                <option value="6">Bắc Giang</option>
+                                <option value="7">Bắc Cạn</option>
+                                <option value="8">Bạc Liêu</option>
+                                <option value="9">Bắc Ninh</option>
+                                <option value="10">Bến Tre</option>
+                                <option value="11">Bình Dương</option>
+                                <option value="12">Bình Định</option>
+                                <option value="13">Đắc Lắc</option>
+                                <option value="14">Hưng Yên</option>
+                                <option value="15">Hà Nam</option>
+                            </select>
+                        </div> -->
+
+
+                            <!-- <div class="box-district">
+                            <label for="district">Quận huyện (tùy chọn)</label>
+                            <select name="billingDistrict" id="billingDistrict">
+                                <option value>---</option>
+                                <option value="1">Thị xã Sơn Tây</option>
+                                <option value="2">Quận Ba Đình</option>
+                                <option value="3">Quận Cầu Giấy</option>
+                                <option value="4">Quận Đống Đa</option>
+                                <option value="5">Quận Hà Đông</option>
+                                <option value="6">Quận Hai Bà Trưng</option>
+                                <option value="7">Quận Hoàn Kiếm</option>
+                                <option value="8">Quận Hoàng Mai</option>
+                                <option value="9">Quận Long Biên</option>
+                                <option value="10">Quận Tây Hồ</option>
+                                <option value="11">Huyện Quốc Oai</option>
+                                <option value="12">Huyện Thanh Trì</option>
+                                <option value="13">Huyện Thường Tín</option>
+                                <option value="14">Quận Bắc Từ Liêm</option>
+                                <option value="15">Huyện Ứng Hòa</option>
+                            </select>
+                        </div> -->
+                            <!-- <div class="box-note">
+                            <label for="note">Ghi chú (tùy chọn)</label>
+                            <textarea name="note" id="note"></textarea>
+                        </div> -->
+                        </div>
+
+                        <div class="col c-12 m-6 l-6 lable_header_right">
+                            <h4>Vận chuyển</h4>
+
+                            <div class="c-12 m-12 l-12">
+                                <div class="transport">
+                                    <div class="item_transport">
+                                        <p>Phương thức vận chuyển</p>
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </div>
+                                    <div class="element_transport">
+                                        <div class="box-transport" *ngFor="let item of transports">
+                                            <div class="radio-wrapper">
+                                                <input type="radio" [(ngModel)]="infoBill.MaVanChuyen"
+                                                    [value]="item.MaVanChuyen" name="transport" formControlName="transport" id="transport-radio"
+                                                    (change)="changetransport(item)">
+                                            </div>
+                                           
+
+                                            <div class="shippingMethod">
+                                                <span class="transport_method">{{ item.TenVanChuyen }}</span>
+                                                <span class="shipping_price">{{ item.Gia | number }}₫</span>
+                                            </div>
+                                        </div>
+                                        <div class="message-error" *ngIf="(formCheckout.get('transport')?.hasError('required') && submitted)">
+                                            {{ formCheckout.get('transport')?.hasError('required') ? 'Cần chọn phương thức vận chuyển để thanh toán' : '' }}
+                                        </div>  
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <h4 style="margin-top: 30px;">Thanh toán</h4>
+
+                            <div class="box-pay">
+                                <div class="radio-wrapper">
+                                    <input (click)="paymentvnpay($event)" type="radio" name="radio-pay" id="transport-radio" checked>
+                                </div>
+
+                                <div class="payMethod">
+                                    <span class="pay_method">Thanh toán khi giao hàng (OCD)</span>
+                                    <span class="pay_icon"><i class="fa-regular fa-money-bill-1"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="box-pay">
+                                <div class="radio-wrapper">
+                                    <input (click)="paymentvnpay($event)" type="radio" name="radio-pay" id="transport-radio">
+                                </div>
+
+                                <div class="payMethod">
+                                    <span class="pay_method">Thanh toán VnPay</span>
+                                    <span class="pay_icon"><img src="/assets/my-ui/image/vnpay-logo.jpg" alt=""></span>
+                                </div>
+                            </div>
+
+                            <div class="box-pay">
+                                <div class="radio-wrapper">
+                                    <input (click)="paymentvnpay($event)" type="radio" name="radio-pay" id="transport-radio">
+                                </div>
+
+                                <div class="payMethod">
+                                    <span class="pay_method">Thanh toán PayPal</span>
+                                    <span class="pay_icon"><img src="/assets/my-ui/image/paypal-logo.jpg" alt=""></span>
+                                </div>
+                                
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col c-12 m-4 l-4 info_order">
+                <h3 class="title">
+                    Đơn hàng <span class="quantity-order"></span>
+                </h3>
+
+
+                <div class="content_cart">
+                    <div class="content-item" *ngFor="let item of carts">
+                        <div class="image_pro">
+                            <img [src]="'http://localhost:8000/'+item.ProductPath" alt="">
+                            <span class="quantity-order">{{ item.Quantity }}</span>
+                        </div>
+
+                        <div class="name_pro">
+                            <span>
+                                {{ item.ProductName }}</span>
+                        </div>
+
+                        <div class="price_pro">
+                            {{ item.ProductPrice | currency:'VND':'symbol'}}đ
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-sale">
+
+                    <!-- <label for="codeSale">
+                            Nhập mã giảm giá
+                        </label> -->
+                    <!-- <input type="text" name="codeSale" id="codeSale"> -->
+
+                    <button type="button" (click)="showModal()">Chọn mã giảm giá</button>
+                    <span class="discount_code">{{ vouchername }}</span>
+                </div>
+
+                <div class="modal_discount_code" [hidden]="isShow">
+                    <div class="col c-12 m-12 l-12 info_voucher">
+                        <i class="fa-solid fa-xmark close_modal_voucher" (click)="hiddenModal()"></i>
+                        <div class="c-12 m-12 l-12 title_voucher">
+                            Thông tin voucher
+
+                            <div (click)="removevoucher()"
+                                style="border: 1px solid rgba(0,0,0,0.3);padding: 5px 8px; background-color: green;color: #fff;border-radius: 10px;cursor: pointer;">
+                                bỏ chọn
+                            </div>
+                        </div>
+
+                        <div class="c-12 m-12 l-12 box_voucher_code">
+                            <ng-container *ngFor="let item of vouchers">
+                                <div class="c-12 m-12 l-12 item_info_voucher"
+                                    *ngIf="(checkdate(item.NgayBatDau,item.NgayKetThuc)) && (checkmoney(item.GiaTriNhoNhat,item.GiaTriLonNhat))">
+                                    <div class="img_coucher">
+                                        <img src="../../../assets/my-ui/image/voucher.png" class="icon_voucher" alt="">
+                                    </div>
+                                    <div class="item_voucher">
+                                        <h3>{{ item.TenPhieu }}</h3>
+                                        <p class="item_info_voucher_name">Số lượng:{{ item.SoLuong }}</p>
+                                        <p class="item_info_voucher_price">Áp dụng cho đơn từ: {{
+                                            item.GiaTriNhoNhat|number }}đ - {{ item.GiaTriLonNhat|number }}đ</p>
+                                        <p class="item_info_voucher_date">Hạn sử dụng: {{ item.NgayBatDau |
+                                            date:"dd/MM/yyyy"}} - {{ item.NgayKetThuc|date:"dd/MM/yyyy" }}</p>
+                                    </div>
+                                    <div class="btn_get_voucher">
+                                        <button (click)="addvoucher(item)" type="button">Chọn</button>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="total-price">
+                    <div class="provisional_box">
+                        <p>Tạm tính</p>
+                        <span class="provisional">{{ sum | currency:'VND':'symbol'}}</span>
+                    </div>
+
+                    <div class="transportfee_box">
+                        <p>Vận chuyển: {{ transportName }}</p>
+                        <span class="transportfee">{{ transportPrice | currency:'VND':'symbol' }}</span>
+                    </div>
+
+                    <div class="total_box">
+                        <p>Tổng cộng</p>
+                        <span class="totalPrice">{{ sum + transportPrice - discountPrice |currency:'VND':'symbol' }}</span>
+                    </div>
+                </div>
+
+                <div class="order-item-last">
+                    <div class="item_back_cart">
+                        <i class="fa-solid fa-angle-left"></i> <a class="link_cart" (click)="backtocart()">Quay lại giỏ
+                            hàng</a>
+                    </div>
+                    <button *ngIf="statusPay" type="submit">ĐẶT HÀNG</button>
+                </div>
+                <ngx-paypal *ngIf="statusPaypal" style="width: 100%;margin-top: 15px;transition: opacity 0.3s ease;" [config]="payPalConfig"></ngx-paypal>
+            </div>
+        </div>
+    </form>
+</section>
+<div id="toast">
+</div>
+<script>
+    $(document).ready(function () {
+        const element_input = $('input');
+        const element_textarea = $('textarea');
+
+        element_input.on('input', function (e) {
+            const label_element = $(this).parent().children('label')
+            if ($(this).val() === '') {
+                label_element.css({
+                    'font-size': '14px',
+                    'transform': 'translateY(0)'
+                });
+
+                $(this).css({
+                    'padding-top': '0',
+                    ' padding-bottom': '0'
+                })
+            }
+            else {
+                label_element.css({
+                    'font-size': '12px',
+                    'transform': 'translateY(-10px)'
+                });
+
+                $(this).css({
+                    'padding-top': '1.2em',
+                    ' padding-bottom': '0.3em'
+                })
+            }
+        })
+
+        element_textarea.on('input', function (e) {
+            const label_element = $(this).parent().children('label')
+            if ($(this).val() === '') {
+                label_element.css({
+                    'font-size': '16px',
+                    'transform': 'translateY(0)'
+                });
+
+                $(this).css({
+                    'padding': '.94em .8em'
+                })
+            }
+            else {
+                label_element.css({
+                    'font-size': '14px',
+                    'transform': 'translateY(-10px)'
+                });
+
+                $(this).css({
+                    'padding-top': '1.35em',
+                    ' padding-bottom': '0.35em'
+                })
+            }
+        })
+
+    });
+</script>
