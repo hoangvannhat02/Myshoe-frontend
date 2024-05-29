@@ -1,23 +1,37 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { CustomerService } from './customer.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(false)
-  constructor(private afAuth: AngularFireAuth) {}
-  login(){
-    this.loggedIn.next(true)
+  private userSubject:BehaviorSubject<SocialUser | null>
+  private user:Observable<SocialUser | null>
+  constructor(private afAuth: AngularFireAuth,  
+    private socialAuthService:SocialAuthService,
+    private customerService: CustomerService
+  ) {
+    this.userSubject = new BehaviorSubject<SocialUser | null>(null)
+    this.user = this.userSubject.asObservable()
+
+    this.socialAuthService.authState.subscribe((user)=>{
+      this.userSubject.next(user)
+    })
   }
 
-  logout(){
-    this.loggedIn.next(false)
+  signOut(): void {
+    this.socialAuthService.signOut().then(() => {
+      this.userSubject.next(null);
+      this.customerService.clearCustomer()
+
+    });
   }
 
-  isLoggedIn():Observable<boolean>{
-    return this.loggedIn.asObservable();
+  get currentUser(): SocialUser | null {
+    return this.userSubject.value;
   }
 
   async sendVerificationEmail(email: string): Promise<void> {
