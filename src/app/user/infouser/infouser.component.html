@@ -206,6 +206,7 @@
                                 </div>
                                 <div class="product_price">
                                     {{ item.GiaKhuyenMai | number }}đ
+                                    <button class="evaluate-btn" title="Đánh giá sản phẩm đã mua" (click)="evaluate(item)" *ngIf="x.TrangThai == 2 ">Đánh giá</button>
                                 </div>
                             </div>
                             <div class="info_bill_extra_money">
@@ -219,7 +220,7 @@
                             <div class="info_bill_total">
                                 <nav>Trạng thái: <span>{{ x.TrangThai == 0 ? 'Chờ xét duyệt' : x.TrangThai == 1 ? 'Đang vận chuyển' : x.TrangThai == 2 ? 'Đã giao' :'Đã hủy'}}</span></nav>
                                 <p>Tổng số tiền: <span>{{ x.TongTien|number }}đ</span></p>
-                                <button class="destroy-btn" (click)="destroyBill(x)" *ngIf="x.TrangThai == 0 ">Hủy</button>
+                                <button class="destroy-btn" (click)="destroyBill(x)" *ngIf="x.TrangThai == 0 && x.HinhThucThanhToan == 'Thanh toán khi giao hàng'">Hủy</button>
                             </div>
                         </div>
                     </div>

@@ -25,13 +25,11 @@ export class AuthService {
   signOut(): void {
     this.socialAuthService.signOut().then(() => {
       this.userSubject.next(null);
-      this.customerService.clearCustomer()
-
     });
   }
 
-  get currentUser(): SocialUser | null {
-    return this.userSubject.value;
+  getUser(): Observable<SocialUser | null> {
+    return this.user;
   }
 
   async sendVerificationEmail(email: string): Promise<void> {

@@ -48,6 +48,9 @@
                                 <ng-container *ngIf="formCheckout.get('phonenumbers')?.hasError('maxlength')">
                                     {{ 'Số điện thoại không được vượt quá 10 ký tự' }}
                                 </ng-container>
+                                <ng-container *ngIf="formCheckout.get('phonenumbers')?.hasError('pattern')">
+                                    {{ 'Số điện thoại phải là số' }}
+                                </ng-container>
                             </div>  
 
 

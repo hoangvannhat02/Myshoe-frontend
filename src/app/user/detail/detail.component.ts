@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ElementRef, Renderer2 } from '@angular/core';
 import { ToastService } from 'src/app/toast.service';
@@ -14,7 +14,7 @@ import { CartserviceService } from 'src/app/my-service/cartservice.service';
   styleUrls: ['./detail.component.css',
   ]
 })
-export class DetailComponent {
+export class DetailComponent implements OnInit {
   @ViewChild('cartInput', { static: false }) cartInput: ElementRef | undefined;
 
   @ViewChild('addQuantityButton') addQuantityButton!: ElementRef;
@@ -42,6 +42,8 @@ export class DetailComponent {
   selectedFile: any;
   imageSrc: any;
   users: any[] = [];
+
+  bills:any[] = []
 
   dataCart: any;
   quanticart = 1;
@@ -107,12 +109,12 @@ export class DetailComponent {
       if (number) {
         this.activeTabIndex = number
       }
-    })
-
-    this.getdatabyid(this.id);
+    })    
+    this.getdatabyid(Number(this.id));
     this.getRealtedProduct();
-    this.getFeedback(this.id);
+    this.getFeedback(Number(this.id));
     this.getUsers();
+    this.getDataBillofsales()
   }
 
   ngAfterViewInit(): void {
@@ -197,6 +199,7 @@ export class DetailComponent {
 
   btnEvaluate() {
     let userid = JSON.parse(localStorage.getItem("customer")!)
+
     if (this.feedBack.SoSao === 0) {
       this.toastmsg.showToast({
         title: "Bạn chưa chọn số sao muốn đánh giá",
@@ -217,6 +220,20 @@ export class DetailComponent {
       this.toastmsg.showToast({
         title: "Bạn chưa đăng nhập",
         message: "vui lòng đăng nhập để đánh giá sản phẩm ",
+        duration: 5000,
+        type: "warning"
+      })
+    }else if(this.bills.length === 0){
+      this.toastmsg.showToast({
+        title: "Lỗi",
+        message: "Bạn phải mua sản phẩm thì mới đánh giá được",
+        duration: 5000,
+        type: "warning"
+      })
+    }else if(this.feedBacks.some((data:any)=>data.MaKhachHang == this.customer.MaKhachHang && data.MaSanPham == this.id)){
+      this.toastmsg.showToast({
+        title: "Lỗi",
+        message: "Bạn chỉ có thể đánh giá 1 lần với mỗi sản phẩm",
         duration: 5000,
         type: "warning"
       })
@@ -275,13 +292,20 @@ export class DetailComponent {
 
   }
 
+  getDataBillofsales(){
+    this.http.post("http://localhost:8000/user/billofsale/getdatapurchasestatus",{MaKhachHang:this.customer.MaKhachHang,MaSanPham:this.id}).subscribe((response: any) => {
+        this.bills = response
+      }, (error) => {
+        console.log(error);
+      })
+  }
+
   getFeedback(id: number) {
     this.http.get("http://localhost:8000/user/evaluate/getdata").subscribe((response: any) => {
+      
       if (response) {
-
         this.feedBacks = response.filter((data: any) => data.MaSanPham == id)
-        console.log(this.feedBacks);
-
+        
         this.feedBack1star = this.feedBacks.filter((item: any) =>
           item.SoSao == 1
         ).length
@@ -374,6 +398,8 @@ export class DetailComponent {
 
   getdatabyid(id: any) {
     this.http.get("http://localhost:8000/user/product/dataproductbyid/" + id).subscribe((response: any) => {
+      console.log(response);
+      
       if (response) {
         this.detailproduct = response;
         this.dataCart = this.detailproduct[0];

@@ -1,14 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Parser } from '@angular/compiler';
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/toast.service';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import  auth  from 'firebase/compat/app';
-
 import * as bcrypt from 'bcryptjs';
-import { AuthService } from 'src/app/my-service/auth.service';
 
 // Custom validator function
 const passwordMatchValidator: ValidatorFn = (control: AbstractControl): { [key: string]: boolean } | null => {
@@ -96,8 +91,7 @@ export class InfouserComponent {
     private toastmsg: ToastService,
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder,
-    private authService: AuthService
+    private fb: FormBuilder
   ) {
     this.formPassword = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(3)]],
@@ -538,6 +532,10 @@ export class InfouserComponent {
     }
   }
 
+  evaluate(data:any){
+    this.router.navigate(['detail',data.MaSanPham])
+  }
+
   //change status bill your customer
   statusBill(event: any) {
     const selectedValue = event.target.value;
@@ -554,6 +552,8 @@ export class InfouserComponent {
       arr.push(this.bills[i])
     }
     this.databillsbypagination = arr
+    console.log(this.databillsbypagination);
+    
   }
 
   calculateStartAndEndIndex(pagesize: any, totalitems: any, page: any) {

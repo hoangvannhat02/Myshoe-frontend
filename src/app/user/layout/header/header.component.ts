@@ -1,8 +1,10 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/my-service/auth.service';
 import { CartserviceService } from 'src/app/my-service/cartservice.service';
 import { CustomerService } from 'src/app/my-service/customer.service';
 
@@ -15,7 +17,8 @@ import { CustomerService } from 'src/app/my-service/customer.service';
 @Injectable({
   providedIn: 'root'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+
   cartCount: number = 0;
   customer = {
     MaKhachHang: 0,
@@ -46,8 +49,8 @@ export class HeaderComponent {
     private spinner: NgxSpinnerService,
     private http: HttpClient,
     private customerService: CustomerService,
-    private authService: SocialAuthService) {
-
+    private authService: AuthService,
+  ) {
     const data = JSON.parse(localStorage.getItem("datahistory")!) || []
     if (data) {
       this.datahistory = data
@@ -185,8 +188,7 @@ export class HeaderComponent {
     });
   }
 
-  logout(event: Event) {
-    event.preventDefault()
+  logout() {
     this.authService.signOut()
     this.customerService.clearCustomer()
     this.router.navigateByUrl('/login');

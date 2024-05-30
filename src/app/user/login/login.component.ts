@@ -8,6 +8,7 @@ import firebase from 'firebase/compat/app';
 import { environment } from 'src/environments/environment';
 import { CustomerService } from 'src/app/my-service/customer.service';
 import * as bcrypt from 'bcryptjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import * as bcrypt from 'bcryptjs';
   ]
 })
 export class LoginComponent {
+  private authSubscription!: Subscription;
 
   users = {
     email: "",
@@ -67,14 +69,11 @@ export class LoginComponent {
     private socialAuthService: SocialAuthService,
     private customerService:CustomerService
   ) {}
-  async ngOnInit() {    
-    const check = await this.comparePasswords('123','$2a$10$eQXtAvX7y4LM0bWJXwTzL.NnS9PcoDafxyCX2r0y3n30y2ZIB8aQy')
-    console.log(check);    
-    
+  ngOnInit() {     
     firebase.initializeApp(environment.firebase)
-    this.socialAuthService.authState.subscribe((user: SocialUser) => {
+    this.authSubscription = this.socialAuthService.authState.subscribe((user: SocialUser) => {
       this.socialUser = user;
-      this.isLoggedin = user != null;
+      this.isLoggedin = (user != null);
       if (this.isLoggedin) {
         this.http.get("http://localhost:8000/user/customer/getdata").subscribe((response: any) => {
           if (response) {
@@ -138,6 +137,12 @@ export class LoginComponent {
 
     });
 
+  }
+
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   refreshToken(): void {

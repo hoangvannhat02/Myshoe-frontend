@@ -64,7 +64,7 @@ export class CheckoutComponent {
     this.formCheckout = this.fb.group({
       fullname: ['', [Validators.required, Validators.minLength(1)]],
       address: ['', [Validators.required, Validators.minLength(1)]],
-      phonenumbers: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10)]],
+      phonenumbers: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10),Validators.pattern('^[0-9]*$')]],
       transport: ['', [Validators.required]]
     });
     
